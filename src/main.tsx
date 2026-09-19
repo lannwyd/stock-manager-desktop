@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { WarehouseProvider } from '@/context/warehouseContext';
+import { WarehouseProvider } from './context/warehouseContext';
 import './index.css';
 
 import Home from './routes/Home';
