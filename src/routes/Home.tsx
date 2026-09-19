@@ -4,9 +4,9 @@ import {Lottie} from 'lottie-react';
 import { ChevronLeft, ChevronRight, Dot, Layers, MapPin, Package, Search, X } from 'lucide-react';
 import { useWarehouseContext } from '../context/warehouseContext';
 import { useHistory } from '../hooks/useHistory';
-import DropdownComponent from '@/components/shared/DropdownComponent';
-import chatbotAnim from '@/assets/animations/chatbot.json';
-import errorAnim from '@/assets/animations/Error.json';
+import DropdownComponent from '../components/shared/DropdownComponent';
+import chatbotAnim from '../assets/animations/chatbot.json';
+import errorAnim from '../assets/animations/Error.json';
 
 function SearchResultRow({ item, sections, warehouseName }: { item: any; sections: any[]; warehouseName?: string }) {
     const section = sections.find((s) => s.id === item.sectionId);
@@ -87,7 +87,7 @@ export default function Home() {
     if (warehousesLoading || historyLoading) {
         return (
             <div className="flex-1 h-screen flex flex-col items-center justify-center bg-indigo-50">
-                <Lottie animationData={chatbotAnim} loop style={{ width: 200, height: 200 }} />
+                <Lottie  src={chatbotAnim } loop style={{ width: 200, height: 200 }} />
                 <span className="font-bold text-xl">يتم التحميل ...</span>
             </div>
         );
@@ -96,7 +96,7 @@ export default function Home() {
     if (warehousesError || historyError) {
         return (
             <div className="flex-1 h-screen flex flex-col items-center justify-center bg-indigo-50">
-                <Lottie animationData={errorAnim} loop style={{ width: 200, height: 200 }} />
+                <Lottie src={errorAnim} loop style={{ width: 200, height: 200 }} />
             </div>
         );
     }
