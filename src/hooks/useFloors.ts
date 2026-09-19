@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '../lib/supabase';
 
 export function useFloors(sectionId: string | null) {
     const [floors, setFloors] = useState<any[]>([]);

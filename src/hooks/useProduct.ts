@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { supabase } from '@/lib/supabase';
+import { supabase } from '../lib/supabase';
 
 export function useProduct(batchId: string | null) {
     const [product, setProduct] = useState<any>(null);
