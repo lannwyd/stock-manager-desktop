@@ -6,6 +6,7 @@ import './App.css';
 
 import Home from './routes/Home';
 import Sections from './routes/Sections';
+import Meds from './routes/Meds';
 // import SectionDetail from './routes/SectionDetail';
 // import FloorDetail from './routes/FloorDetail';
 // import ProductDetail from './routes/ProductDetail';
@@ -14,6 +15,7 @@ import Sections from './routes/Sections';
 const router = createBrowserRouter([
   { path: '/', element: <Home /> },
   { path: '/sections', element: <Sections /> },
+  { path: '/meds', element: <Meds /> },
   // { path: '/sections/history', element: <History /> },
   // { path: '/sections/:sectionId', element: <SectionDetail /> },
   // { path: '/sections/:sectionId/:floorId', element: <FloorDetail /> },
