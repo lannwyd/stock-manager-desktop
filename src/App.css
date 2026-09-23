@@ -1,1 +1,6 @@
 @import "tailwindcss";
+body {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* System fallback */
+}
