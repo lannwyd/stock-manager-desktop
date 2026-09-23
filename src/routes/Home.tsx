@@ -155,23 +155,31 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col gap-4">
-                {historyItems.slice(0, 3).map((item: any) => (
-                    <div key={item.id} className="flex flex-row justify-between bg-white px-4 py-3 rounded-xl border border-slate-200">
-                        <div>
-                            <span className="flex flex-col items-center text-base font-medium text-right">
-                                {item.quantity} علب
-                            </span>
-                        </div>
-                        <div>
-                            <div className="text-base font-medium text-right">
-                                {item.stock_batches?.products?.name ?? 'دواء غير معروف'}
-                            </div>
-                            <div className="text-sm text-right">
-                                {item.from_warehouse?.name ?? 'N/A'} ← {item.to_warehouse?.name ?? 'N/A'} · {new Date(item.created_at).toLocaleDateString()}
-                            </div>
-                        </div>
+                {historyItems.length === 0 ? (
+                    <div className=" h-full flex flex-col items-center justify-center bg-white px-4 py-8 ">
+                        <span className="text-base font-medium text-slate-500">
+                            لا توجد عناصر في السجل
+                        </span>
                     </div>
-                ))}
+                ) : (
+                    historyItems.slice(0, 3).map((item: any) => (
+                        <div key={item.id} className="flex flex-row justify-between bg-white px-4 py-3 rounded-xl border border-slate-200">
+                            <div>
+                                <span className="flex flex-col items-center text-base font-medium text-right">
+                                    {item.quantity} علب
+                                </span>
+                            </div>
+                            <div>
+                                <div className="text-base font-medium text-right">
+                                    {item.stock_batches?.products?.name ?? 'دواء غير معروف'}
+                                </div>
+                                <div className="text-sm text-slate-500 text-right">
+                                    {item.from_warehouse?.name ?? 'N/A'} ← {item.to_warehouse?.name ?? 'N/A'} · {new Date(item.created_at).toLocaleDateString()}
+                                </div>
+                            </div>
+                        </div>
+                    ))
+                )}
             </div>
         </div>
     );
