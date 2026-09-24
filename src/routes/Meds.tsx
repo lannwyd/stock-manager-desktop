@@ -12,6 +12,12 @@ function MedRow({ item, sections, warehouseName }: { item: any; sections: any[];
     const section = sections.find((s) => s.id === item.sectionId);
     const floor = section?.floors.find((f: any) => f.id === item.floorId);
 
+    const formattedExpiry = item.expiry_date 
+        ? item.expiry_date.split('-').slice(0, 2).join('/') 
+        : '';
+        
+    const lotNumber = item.lot || item.lot_number;
+
     return (
         <Link to={`/sections/${item.sectionId}/${item.floorId}/${item.id}`} className="block">
             <div className="flex flex-row items-center justify-between bg-white rounded-xl border border-slate-200 p-4 hover:bg-slate-50 cursor-pointer">
@@ -20,20 +26,26 @@ function MedRow({ item, sections, warehouseName }: { item: any; sections: any[];
                     <span className="flex-1 text-slate-600 text-right">{item.quantity} دواء</span>
                 </div>
                 <div className="w-[60%] flex flex-col gap-1.5">
-                    <div className="w-full flex flex-row items-center justify-end">
-                        <div className="w-[45%] p-2 bg-indigo-50 rounded-lg">
+                    <div className="w-full flex flex-row items-center justify-between">
+                        <div className=" p-2 bg-indigo-50 rounded-lg">
                             <span className="w-full block text-sm text-center text-indigo-600">{item.products?.dci}</span>
                         </div>
-                        <span className="w-[45%] text-base font-medium text-left">{item.products?.name}</span>
+                        <span className=" text-base font-medium text-left">{item.products?.name}</span>
                     </div>
-                    <div className="flex flex-row items-center justify-between">
-                        <span className="text-xs text-slate-400">{item.expiry_date}</span>
+                    <div className="flex flex-row items-end justify-between">
                         {section && floor && (
                             <div className="flex flex-row items-center justify-center gap-2 rounded-lg">
                                 <span className="w-full text-sm text-indigo-600 text-left">{warehouseName} · {section.name} · {floor.name}</span>
-                                <MapPin size={14} color="#4338ca" />
+                                <MapPin size={14} color="#4338ca" className="shrink-0" />
                             </div>
                         )}
+                        <div className="flex flex-col gap-1 items-end">
+                            <span className="text-sm text-slate-600 font-medium " dir="ltr">{formattedExpiry}</span>
+                            {lotNumber && (
+                                <span className="text-sm text-slate-600 " dir="ltr">Lot: {lotNumber}</span>
+                            )}
+                        </div>
+                        
                     </div>
                 </div>
             </div>

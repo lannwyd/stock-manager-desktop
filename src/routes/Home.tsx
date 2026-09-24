@@ -1,4 +1,4 @@
-// src/routes/Home.tsx
+
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Lottie } from 'lottie-react';
