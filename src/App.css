@@ -1,14 +1,17 @@
 @import "tailwindcss";
+
 body {
   direction: rtl;
   text-align: right;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* System fallback */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* System fallback */
 }
 
 
 .custom-scroll {
   scrollbar-width: thin;
   scrollbar-color: #4338ca transparent;
+}
 
 .custom-scroll::-webkit-scrollbar {
   width: 8px;
@@ -19,10 +22,10 @@ body {
 }
 
 .custom-scroll::-webkit-scrollbar-thumb {
-  background-color: #4338ca; 
+  background-color: #4338ca;
   border-radius: 9999px;
 }
 
 .custom-scroll::-webkit-scrollbar-button {
-  display: none; 
+  display: none;
 }

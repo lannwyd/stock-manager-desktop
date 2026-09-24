@@ -3,7 +3,7 @@ import { useProduct } from '../hooks/useProduct';
 import { supabase } from '../lib/supabase';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Lottie } from 'lottie-react';
-import { ArrowLeftRight, Calendar, ChevronRight, Hash, Layers, MapPin, Pencil, Trash2, X } from 'lucide-react';
+import { RefreshCw,ArrowLeftRight, Calendar, ChevronRight, Hash, Layers, MapPin, Pencil, Trash2, X } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import chatbotAnimation from '../assets/animations/chatbot.json';
 import errorAnimation from '../assets/animations/Error.json';
@@ -210,12 +210,17 @@ export default function ProductDetail() {
                 <div className="bg-white rounded-xl border border-slate-200 p-5 flex flex-col gap-4 shadow-sm">
                     <div className="flex flex-row items-center justify-between mt-2 px-1">
                         <h1 className="font-semibold text-2xl text-left">{batch.products?.name}</h1>
-                        <button
-                            onClick={() => navigate(-1)}
-                            className="p-2 hover:bg-indigo-100 rounded-full cursor-pointer transition-colors"
-                        >
-                            <ChevronRight size={28} color="#4338ca" className="rotate-180" />
-                        </button>
+                        <div className='flex flex-row '>
+                            <button onClick={onRefresh} className="p-2 flex justify-center items-center rounded-[50%] cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
+                                <RefreshCw />
+                            </button>
+                            <button
+                                onClick={() => navigate(-1)}
+                                className="p-2 hover:bg-slate-200 rounded-full cursor-pointer transition-colors"
+                            >
+                                <ChevronRight size={28} color="#4338ca" className="rotate-180" />
+                            </button>
+                        </div>
                     </div>
 
                     {location && (

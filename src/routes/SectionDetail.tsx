@@ -2,7 +2,7 @@ import { useWarehouseContext } from '../context/warehouseContext';
 import { supabase } from '../lib/supabase';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Lottie } from 'lottie-react';
-import { ChevronRight, Layers, Package, Pencil, Plus, Trash2, X } from 'lucide-react';
+import { RefreshCw,ChevronRight, Layers, Package, Pencil, Plus, Trash2, X } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import chatbotAnimation from '../assets/animations/chatbot.json';
 import errorAnimation from '../assets/animations/Error.json';
@@ -141,12 +141,17 @@ export default function SectionDetail() {
                 <div className="flex flex-col gap-4 mb-2">
                     <div className="flex flex-row items-center justify-between mt-2 px-1">
                         <h1 className="font-semibold text-2xl">{section.name}</h1>
-                        <button
-                            onClick={() => navigate(-1)}
-                            className="p-2 hover:bg-slate-200 rounded-full cursor-pointer transition-colors"
-                        >
-                            <ChevronRight size={28} color="#4338ca" className="rotate-180" />
-                        </button>
+                        <div className='flex flex-row '>
+                            <button onClick={onRefresh} className="p-2 flex justify-center items-center rounded-[50%] cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
+                                <RefreshCw />
+                            </button>
+                            <button
+                                onClick={() => navigate(-1)}
+                                className="p-2 hover:bg-slate-200 rounded-full cursor-pointer transition-colors"
+                            >
+                                <ChevronRight size={28} color="#4338ca" className="rotate-180" />
+                            </button>
+                        </div>
                     </div>
 
                     <div className="flex flex-row gap-4">

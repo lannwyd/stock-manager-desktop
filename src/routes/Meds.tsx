@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Lottie } from 'lottie-react';
-import { ArrowUpDown, ChevronLeft, ChevronRight, MapPin, Search, X } from 'lucide-react';
+import { RefreshCw,ArrowUpDown, ChevronLeft, ChevronRight, MapPin, Search, X } from 'lucide-react';
 import { useWarehouseContext } from '../context/warehouseContext';
 import chatbotAnim from '../assets/animations/chatbot.json';
 import errorAnim from '../assets/animations/Error.json';
@@ -12,10 +12,10 @@ function MedRow({ item, sections, warehouseName }: { item: any; sections: any[];
     const section = sections.find((s) => s.id === item.sectionId);
     const floor = section?.floors.find((f: any) => f.id === item.floorId);
 
-    const formattedExpiry = item.expiry_date 
-        ? item.expiry_date.split('-').slice(0, 2).join('/') 
+    const formattedExpiry = item.expiry_date
+        ? item.expiry_date.split('-').slice(0, 2).join('/')
         : '';
-        
+
     const lotNumber = item.lot || item.lot_number;
 
     return (
@@ -45,7 +45,7 @@ function MedRow({ item, sections, warehouseName }: { item: any; sections: any[];
                                 <span className="text-sm text-slate-600 " dir="ltr">Lot: {lotNumber}</span>
                             )}
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
@@ -55,7 +55,7 @@ function MedRow({ item, sections, warehouseName }: { item: any; sections: any[];
 
 export default function Meds() {
     const navigate = useNavigate();
-    const { selectedWarehouse, loading, error } = useWarehouseContext();
+    const { selectedWarehouse, loading, error, refresh } = useWarehouseContext();
     const [search, setSearch] = useState('');
     const [sortMode, setSortMode] = useState<SortMode>('name');
 
@@ -117,9 +117,14 @@ export default function Meds() {
             <div className="bg-white p-4 shadow shadow-black/10 shrink-0">
                 <div className="flex flex-row items-center justify-between">
                     <span className="font-semibold text-2xl">قائمة الأدوية</span>
-                    <button onClick={() => navigate(-1)} className="p-2">
-                        <ChevronLeft size={28} color="#4338ca" />
-                    </button>
+                    <div className="flex flex-row items-center gap-2">
+                        <button onClick={refresh} className="p-2 flex justify-center items-center rounded-[50%] cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
+                            <RefreshCw size={20} />
+                        </button>
+                        <button onClick={() => navigate(-1)} className="p-2">
+                            <ChevronLeft size={28} color="#4338ca" />
+                        </button>
+                    </div>
                 </div>
             </div>
 
