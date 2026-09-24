@@ -73,7 +73,7 @@ export default function Home() {
             </div>
 
             <div className="flex flex-row gap-4">
-                <div className="flex-1 flex flex-row bg-white rounded-xl border justify-between border-slate-200 py-4 px-6">
+                <div className="flex-1 flex flex-row bg-white rounded-xl border justify-between border-slate-400 py-4 px-6">
                     <div className='bg-indigo-100 border border-indigo-200 rounded-lg p-3'>
                         <Package size={40} color="#4338ca" />
                     </div>
@@ -83,7 +83,7 @@ export default function Home() {
                         <div className="text-2xl font-bold mt-2 text-left">{totalProducts}</div>
                     </div>
                 </div>
-                <div className="flex-1 flex flex-row bg-white rounded-xl border border-slate-200 py-4 px-6 justify-between">
+                <div className="flex-1 flex flex-row bg-white rounded-xl border border-slate-400 py-4 px-6 justify-between">
                     <div className='bg-indigo-100 border border-indigo-200 rounded-lg p-3'>
                         <Layers size={40} color="#4338ca" />
                     </div>
@@ -95,7 +95,7 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className="bg-white rounded-xl border border-slate-200 p-4 flex flex-col gap-3">
+            <div className="bg-white rounded-xl border border-slate-400 p-4 flex flex-col gap-3">
                 <div className="flex flex-row items-center justify-between">
                     <span className="font-semibold text-lg">الأقسام</span>
                     <Link to="/sections" className="flex flex-row items-center">

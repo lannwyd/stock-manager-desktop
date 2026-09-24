@@ -1,14 +1,14 @@
 import { useWarehouseContext } from '../context/warehouseContext';
 import { supabase } from '../lib/supabase';
-import { Link, useNavigate } from 'react-router-dom';
-import {Lottie} from 'lottie-react';
-import { ChevronLeft, Layers, Package, Pencil, Plus, Trash2, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Lottie } from 'lottie-react';
+import { ChevronRight, Layers, Package, Pencil, Plus, Trash2, X } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import chatbotAnimation from '../assets/animations/chatbot.json';
 import errorAnimation from '../assets/animations/Error.json';
 
 const COLOR_OPTIONS = [
-    { label: 'أبيض', value: 'bg-white-100' },
+    { label: 'أبيض', value: 'bg-white' },
     { label: 'برتقالي', value: 'bg-orange-100' },
     { label: 'أصفر', value: 'bg-yellow-100' },
     { label: 'أزرق', value: 'bg-blue-100' },
@@ -47,7 +47,7 @@ export default function Sections() {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen bg-indigo-50" dir="rtl">
                 <div className="w-50 h-50">
-                    <Lottie  src={chatbotAnimation} loop={true} />
+                    <Lottie src={chatbotAnimation} loop={true} />
                 </div>
                 <p className="font-bold text-xl mt-4">يتم التحميل ...</p>
             </div>
@@ -149,9 +149,8 @@ export default function Sections() {
     };
 
     return (
-        <div className="min-h-screen bg-indigo-50 p-4 font-sans" dir="rtl">
-            <div className="max-w-2xl mx-auto flex flex-col gap-4">
-
+        <div className="w-full h-screen bg-white p-4 font-sans" dir="rtl">
+            <div className=" w-full h-full flex flex-col justify-between  gap-4">
                 <div className="flex flex-col gap-4 mb-2">
                     <div className="flex flex-row items-center justify-between mt-2 px-1">
                         <h1 className="font-semibold text-2xl">الأقسام</h1>
@@ -159,25 +158,34 @@ export default function Sections() {
                             onClick={() => navigate(-1)}
                             className="p-2 hover:bg-slate-200 rounded-full cursor-pointer transition-colors"
                         >
-                            <ChevronLeft size={28} color="#4338ca" className="rotate-180" />
+                            <ChevronRight size={28} color="#4338ca" className="rotate-180" />
                         </button>
                     </div>
-
                     <div className="flex flex-row gap-4">
-                        <div className="flex-1 bg-white rounded-xl border border-slate-200 py-4 px-6 flex flex-col items-start shadow-sm">
-                            <Package size={20} color="#4338ca" />
-                            <span className="text-2xl font-bold mt-2">{totalProducts}</span>
-                            <span className="text-slate-700 text-md">إجمالي الأدوية</span>
+
+                        <div className="flex-1 flex flex-row bg-white rounded-xl border justify-between border-slate-400 py-4 px-6">
+                            <div className='bg-indigo-100 border border-indigo-200 rounded-lg p-3'>
+                                <Package size={40} color="#4338ca" />
+                            </div>
+                            <div >
+                                <div className="text-slate-700 text-base text-left">إجمالي الأدوية</div>
+                                <div className="text-2xl font-bold mt-2 text-left">{totalProducts}</div>
+                            </div>
                         </div>
-                        <div className="flex-1 bg-white rounded-xl border border-slate-200 py-4 px-6 flex flex-col items-start shadow-sm">
-                            <Layers size={20} color="#4338ca" />
-                            <span className="text-2xl font-bold mt-2">{sections.length}</span>
-                            <span className="text-slate-700 text-md">الأقسام</span>
+                        <div className="flex-1 flex flex-row bg-white rounded-xl border border-slate-400 py-4 px-6 justify-between">
+                            <div className='bg-indigo-100 border border-indigo-200 rounded-lg p-3'>
+                                <Layers size={40} color="#4338ca" />
+                            </div>
+                            <div>
+                                <div className="text-slate-700 text-base text-left">الأقسام</div>
+                                <div className="text-2xl font-bold mt-2 text-left">{sections.length}</div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-4">
+                <div className="flex w-full  bg-indigo-50 rounded-lg p-4 flex-col gap-4 border border-slate-400 overflow-y-scroll ">
                     {sections.map((item) => {
                         const distinctProductCount = new Set(
                             (item.floors ?? []).flatMap((floor) =>
@@ -186,8 +194,12 @@ export default function Sections() {
                         ).size;
 
                         return (
-                            <div key={item.id} className={`rounded-xl overflow-hidden shadow-sm ${item.color ?? 'bg-slate-100'}`}>
-                                <Link to={`/sections/${item.id}`} className="flex flex-row items-start justify-between px-4 py-5 hover:bg-black/5 transition-colors cursor-pointer block">
+                            <div
+                                key={item.id}
+                                onClick={() => navigate(`/sections/${item.id}`)}
+                                className={`rounded-xl  shadow-sm cursor-pointer ${item.color ?? 'bg-slate-100'}`}
+                            >
+                                <div className="flex flex-row items-center justify-between px-4 py-5  transition-colors">
                                     <div className="w-[90%] flex flex-row justify-between items-center gap-2">
                                         <div className="flex w-[50%] flex-col">
                                             <span className="text-lg font-medium">{item.name}</span>
@@ -198,21 +210,27 @@ export default function Sections() {
                                         </div>
                                     </div>
                                     <div className="w-[10%] h-full flex flex-row justify-end items-center">
-                                        <ChevronLeft size={26} color="#4338ca" className="rotate-180" />
+                                        <ChevronRight size={26} color="#4338ca" className="rotate-180" />
                                     </div>
-                                </Link>
+                                </div>
 
                                 <div className="flex flex-row gap-2 px-4 pb-3 justify-end">
                                     <button
-                                        onClick={() => openEditModal(item)}
-                                        className="flex flex-row items-center gap-1 bg-white/60 hover:bg-white/80 rounded-lg px-4 py-3 cursor-pointer transition-colors"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            openEditModal(item);
+                                        }}
+                                        className="flex flex-row items-center gap-1 border border-indigo-500  hover:bg-indigo-100 rounded-lg px-4 py-3 cursor-pointer "
                                     >
                                         <Pencil size={14} color="#4338ca" />
-                                        <span className="text-indigo-700 text-sm font-semibold">تعديل</span>
+                                        <span className=" text-sm font-semibold">تعديل</span>
                                     </button>
                                     <button
-                                        onClick={() => handleDeleteSection(item)}
-                                        className="flex flex-row items-center gap-1 bg-white/60 hover:bg-white/80 rounded-lg px-4 py-3 cursor-pointer transition-colors"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleDeleteSection(item);
+                                        }}
+                                        className="flex flex-row items-center gap-1 border border-red-500 bg-white hover:bg-red-100   rounded-lg px-4 py-3 cursor-pointer transition-colors"
                                     >
                                         <Trash2 size={14} color="#dc2626" />
                                         <span className="text-red-600 text-sm font-semibold">حذف</span>
@@ -225,7 +243,7 @@ export default function Sections() {
 
                 <button
                     onClick={openAddModal}
-                    className="w-full flex flex-col justify-center items-center bg-indigo-500 hover:bg-indigo-600 h-20 rounded-md mt-2 cursor-pointer transition-colors shadow-sm"
+                    className="w-full flex flex-col justify-center items-center bg-indigo-500 hover:bg-indigo-600 min-h-20 rounded-md mt-2 cursor-pointer transition-colors shadow-sm"
                 >
                     <Plus size={36} color="#FFFFFF" />
                 </button>
