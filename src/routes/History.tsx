@@ -95,7 +95,7 @@ export default function HistoryScreen() {
                     </div>
                 </div>
 
-                <div className="flex-1 flex flex-col gap-4 bg-indigo-50 rounded-lg p-4 border border-slate-400 overflow-y-auto">
+                <div className="flex-1 flex flex-col gap-4 bg-indigo-50 rounded-lg p-4 border border-slate-400 overflow-y-auto  custom-scroll">
                     {filteredHistory.length === 0 ? (
                         <div className="flex items-center justify-center py-8">
                             <span className="text-slate-400">لا توجد سجلات مطابقة</span>

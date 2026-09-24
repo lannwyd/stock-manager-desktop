@@ -77,7 +77,6 @@ export default function Home() {
                     <div className='bg-indigo-100 border border-indigo-200 rounded-lg p-3'>
                         <Package size={40} color="#4338ca" />
                     </div>
-
                     <div >
                         <div className="text-slate-700 text-base text-left">إجمالي الأدوية</div>
                         <div className="text-2xl font-bold mt-2 text-left">{totalProducts}</div>

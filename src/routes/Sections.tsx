@@ -185,7 +185,7 @@ export default function Sections() {
                     </div>
                 </div>
 
-                <div className="flex w-full  bg-indigo-50 rounded-lg p-4 flex-col gap-4 border border-slate-400 overflow-y-scroll ">
+                <div className="flex w-full flex-1 bg-indigo-50 rounded-lg p-4 flex-col gap-4 border border-slate-400 overflow-y-auto  custom-scroll ">
                     {sections.map((item) => {
                         const distinctProductCount = new Set(
                             (item.floors ?? []).flatMap((floor) =>

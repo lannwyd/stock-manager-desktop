@@ -140,7 +140,7 @@ export default function SectionDetail() {
             <div className="w-full h-full flex flex-col justify-between gap-4">
                 <div className="flex flex-col gap-4 mb-2">
                     <div className="flex flex-row items-center justify-between mt-2 px-1">
-                        <h1 className="font-semibold text-2xl">الطوابق</h1>
+                        <h1 className="font-semibold text-2xl">{section.name}</h1>
                         <button
                             onClick={() => navigate(-1)}
                             className="p-2 hover:bg-slate-200 rounded-full cursor-pointer transition-colors"
@@ -170,9 +170,11 @@ export default function SectionDetail() {
                             </div>
                         </div>
                     </div>
+                <h2 className="font-semibold text-lg mt-2 px-1">قائمة الطوابق :</h2>
+
                 </div>
 
-                <div className="flex w-full bg-indigo-50 rounded-lg p-4 flex-col gap-4 border border-slate-400 overflow-y-scroll flex-1">
+                <div className="flex w-full bg-indigo-50 rounded-lg p-4 flex-col gap-4 border border-slate-400 overflow-y-auto  custom-scroll flex-1">
                     {floors.map((item) => {
                         const distinctProductCount = new Set(
                             (item.stock_batches ?? []).map((batch) => batch.products?.name)

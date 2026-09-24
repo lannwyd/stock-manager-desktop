@@ -196,22 +196,33 @@ export default function FloorDetail() {
                 </div>
 
                 <div className="flex flex-row gap-4">
-                    <div className="flex-1 bg-white rounded-xl border border-slate-300 p-4 shadow-sm">
-                        <Package size={24} color="#4338ca" />
-                        <div className="text-2xl font-bold mt-2 text-left">{totalItems}</div>
-                        <div className="text-slate-700 text-base text-left">إجمالي الأدوية</div>
+                    <div className="flex-1 flex flex-row bg-white rounded-xl border justify-between border-slate-400 py-4 px-6">
+                        <div className='bg-indigo-100 border border-indigo-200 rounded-lg p-3'>
+                            <Package size={40} color="#4338ca" />
+                        </div>
+                        <div >
+                            <div className="text-slate-700 text-base text-left">إجمالي الأدوية</div>
+                            <div className="text-2xl font-bold mt-2 text-left">{totalProducts}</div>
+                        </div>
                     </div>
-                    <div className="flex-1 bg-white rounded-xl border border-slate-300 p-4 shadow-sm">
-                        <Layers size={24} color="#4338ca" />
-                        <div className="text-2xl font-bold mt-2 text-left">{totalProducts}</div>
-                        <div className="text-slate-700 text-base text-left">الأدوية</div>
+                    <div className="flex-1 flex flex-row bg-white rounded-xl border border-slate-400 py-4 px-6 justify-between">
+                        <div className='bg-indigo-100 border border-indigo-200 rounded-lg p-3'>
+                            <Layers size={40} color="#4338ca" />
+                        </div>
+                        <div>
+                            <div className="text-slate-700 text-base text-left">الأدوية</div>
+                            <div className="text-2xl font-bold mt-2 text-left">{totalProducts}</div>
+                        </div>
+
                     </div>
                 </div>
 
-                <h2 className="font-semibold text-lg mt-2 px-1">الأدوية</h2>
+                
+
+                <h2 className="font-semibold text-lg mt-2 px-1">قائمة الأدوية :</h2>
             </div>
 
-            <div className="flex-1 overflow-y-auto flex flex-col gap-4 pb-24">
+            <div className="flex-1 overflow-y-auto flex flex-col gap-4 pb-24  custom-scroll">
                 {filteredBatches.length === 0 ? (
                     <div className="flex flex-col items-center py-8">
                         <span className="text-slate-500">لا توجد أدوية مطابقة</span>
@@ -243,7 +254,7 @@ export default function FloorDetail() {
 
             <button
                 onClick={openAddModal}
-                className="absolute bottom-10 right-8 flex flex-col h-16 w-16 justify-center items-center bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-xl cursor-pointer transition-colors z-10"
+                className="absolute bottom-10 left-8 flex flex-col h-16 w-16 justify-center items-center bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-xl cursor-pointer transition-colors z-10"
             >
                 <Plus size={32} color="#FFFFFF" />
             </button>
