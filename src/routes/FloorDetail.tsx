@@ -2,7 +2,7 @@ import { useWarehouseContext } from '../context/warehouseContext';
 import { supabase } from '../lib/supabase';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Lottie } from 'lottie-react';
-import { RefreshCw,ChevronRight, Layers, Package, Plus, Search, X } from 'lucide-react';
+import { RefreshCw, ChevronRight, Layers, Package, Plus, Search, X } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import chatbotAnimation from '../assets/animations/chatbot.json';
 import errorAnimation from '../assets/animations/Error.json';
@@ -170,16 +170,16 @@ export default function FloorDetail() {
                 <div className="flex flex-row items-center justify-between mt-2 px-1">
                     <h1 className="font-semibold text-2xl text-left">{floor.name}</h1>
                     <div className='flex flex-row '>
-                            <button onClick={onRefresh} className="p-2 flex justify-center items-center rounded-[50%] cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
-                                <RefreshCw />
-                            </button>
-                            <button
-                                onClick={() => navigate(-1)}
-                                className="p-2 hover:bg-slate-200 rounded-full cursor-pointer transition-colors"
-                            >
-                                <ChevronRight size={28} color="#4338ca" className="rotate-180" />
-                            </button>
-                        </div>
+                        <button onClick={onRefresh} className="px-6 flex justify-center items-center rounded-xl cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
+                            <RefreshCw />
+                        </button>
+                        <button
+                            onClick={() => navigate(-1)}
+                            className="p-2 hover:bg-slate-200 rounded-full cursor-pointer transition-colors"
+                        >
+                            <ChevronRight size={28} color="#4338ca" className="rotate-180" />
+                        </button>
+                    </div>
                 </div>
 
                 <div className="flex flex-row items-center bg-white w-full h-16 rounded-xl border border-slate-400 px-3 focus-within:border-indigo-500 focus-within:ring-1 focus-within:ring-indigo-500 shadow-sm">
@@ -222,7 +222,7 @@ export default function FloorDetail() {
                     </div>
                 </div>
 
-                
+
 
                 <h2 className="font-semibold text-lg mt-2 px-1">قائمة الأدوية :</h2>
             </div>

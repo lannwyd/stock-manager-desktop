@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Lottie } from 'lottie-react';
-import { RefreshCw,ArrowUpDown, ChevronLeft, ChevronRight, MapPin, Search, X } from 'lucide-react';
+import { RefreshCw, ArrowUpDown, ChevronLeft, ChevronRight, MapPin, Search, X } from 'lucide-react';
 import { useWarehouseContext } from '../context/warehouseContext';
 import chatbotAnim from '../assets/animations/chatbot.json';
 import errorAnim from '../assets/animations/Error.json';
@@ -117,9 +117,9 @@ export default function Meds() {
             <div className="bg-white p-4 shadow shadow-black/10 shrink-0">
                 <div className="flex flex-row items-center justify-between">
                     <span className="font-semibold text-2xl">قائمة الأدوية</span>
-                    <div className="flex flex-row items-center gap-2">
-                        <button onClick={refresh} className="p-2 flex justify-center items-center rounded-[50%] cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
-                            <RefreshCw size={20} />
+                    <div className="flex flex-row items-center gap-2 bg-amber-100">
+                        <button onClick={refresh} className="px-6 p-2 flex justify-center items-center rounded-lg cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
+                            <RefreshCw />
                         </button>
                         <button onClick={() => navigate(-1)} className="p-2">
                             <ChevronLeft size={28} color="#4338ca" />

@@ -2,7 +2,7 @@
 import { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Lottie } from 'lottie-react';
-import { RefreshCw,ChevronLeft, Dot, Layers, Package } from 'lucide-react';
+import { RefreshCw, ChevronLeft, Dot, Layers, Package } from 'lucide-react';
 import { useWarehouseContext } from '../context/warehouseContext';
 import { useHistory } from '../hooks/useHistory';
 import DropdownComponent from '../components/shared/DropdownComponent';
@@ -64,9 +64,9 @@ export default function Home() {
                     />
                 </div>
 
-                <button onClick={onRefresh} className="p-2 flex justify-center items-center rounded-[50%] cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
-                                <RefreshCw />
-                            </button>
+                <button onClick={onRefresh} className="px-6 flex justify-center items-center rounded-xl cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
+                    <RefreshCw />
+                </button>
                 <Link to="/meds" className="bg-indigo-500 rounded-xl w-fit px-6 flex items-center cursor-pointer hover:bg-indigo-600 text-sm text-white">
                     قائمة الأدوية
                 </Link>

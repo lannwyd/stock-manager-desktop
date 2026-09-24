@@ -2,7 +2,7 @@ import { useHistory } from '../hooks/useHistory';
 import { supabase } from '../lib/supabase';
 import { useNavigate } from 'react-router-dom';
 import { Lottie } from 'lottie-react';
-import { RefreshCw,ChevronRight, Search, Trash2, X } from 'lucide-react';
+import { RefreshCw, ChevronRight, Search, Trash2, X } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import chatbotAnimation from '../assets/animations/chatbot.json';
 import errorAnimation from '../assets/animations/Error.json';
@@ -71,7 +71,7 @@ export default function HistoryScreen() {
                     <div className="flex flex-row items-center justify-between mt-2 px-1 ">
                         <h1 className="font-semibold text-2xl">السجل</h1>
                         <div className='flex flex-row '>
-                            <button onClick={onRefresh} className="p-2 flex justify-center items-center rounded-[50%] cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
+                            <button onClick={onRefresh} className="px-6 flex justify-center items-center rounded-xl cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
                                 <RefreshCw />
                             </button>
                             <button

@@ -3,7 +3,7 @@ import { useProduct } from '../hooks/useProduct';
 import { supabase } from '../lib/supabase';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Lottie } from 'lottie-react';
-import { RefreshCw,ArrowLeftRight, Calendar, ChevronRight, Hash, Layers, MapPin, Pencil, Trash2, X } from 'lucide-react';
+import { RefreshCw, ArrowLeftRight, Calendar, ChevronRight, Hash, Layers, MapPin, Pencil, Trash2, X } from 'lucide-react';
 import { useCallback, useState } from 'react';
 import chatbotAnimation from '../assets/animations/chatbot.json';
 import errorAnimation from '../assets/animations/Error.json';
@@ -211,7 +211,7 @@ export default function ProductDetail() {
                     <div className="flex flex-row items-center justify-between mt-2 px-1">
                         <h1 className="font-semibold text-2xl text-left">{batch.products?.name}</h1>
                         <div className='flex flex-row '>
-                            <button onClick={onRefresh} className="p-2 flex justify-center items-center rounded-[50%] cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
+                            <button onClick={onRefresh} className="px-6 flex justify-center items-center rounded-xl cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
                                 <RefreshCw />
                             </button>
                             <button
@@ -459,8 +459,8 @@ export default function ProductDetail() {
                                     key={w.id}
                                     onClick={() => setTransferTargetWarehouseId(w.id)}
                                     className={`flex flex-row items-center justify-between border rounded-lg px-3 py-3 cursor-pointer transition-colors ${transferTargetWarehouseId === w.id
-                                            ? 'border-indigo-600 bg-indigo-50'
-                                            : 'border-slate-300 hover:bg-slate-50'
+                                        ? 'border-indigo-600 bg-indigo-50'
+                                        : 'border-slate-300 hover:bg-slate-50'
                                         }`}
                                 >
                                     <span className="text-base text-right w-full">{w.name}</span>
