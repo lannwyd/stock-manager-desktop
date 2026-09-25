@@ -171,9 +171,8 @@ export default function FloorDetail() {
         );
     }
 
-    const totalItems = (floor.stock_batches ?? []).reduce((sum, b) => sum + (b.quantity ?? 0), 0);
     const totalProducts = floor.stock_batches?.length ?? 0;
-
+    const totalItems = (floor.stock_batches ?? []).reduce((sum, b) => sum + (b.quantity ?? 0), 0);
     function resetForm() {
         setNewName('');
         setNewDci('');
@@ -231,7 +230,7 @@ export default function FloorDetail() {
                             <Package size={40} color="#4338ca" />
                         </div>
                         <div >
-                            <div className="text-slate-700 text-base text-left">إجمالي الأدوية</div>
+                            <div className="text-slate-700 text-base text-left">إجمالي أسماء الأدوية</div>
                             <div className="text-2xl font-bold mt-2 text-left">{totalProducts}</div>
                         </div>
                     </div>
@@ -240,8 +239,8 @@ export default function FloorDetail() {
                             <Layers size={40} color="#4338ca" />
                         </div>
                         <div>
-                            <div className="text-slate-700 text-base text-left">الأدوية</div>
-                            <div className="text-2xl font-bold mt-2 text-left">{totalProducts}</div>
+                            <div className="text-slate-700 text-base text-left">إجمالي عدد الأدوية</div>
+                            <div className="text-2xl font-bold mt-2 text-left">{totalItems}</div>
                         </div>
 
                     </div>

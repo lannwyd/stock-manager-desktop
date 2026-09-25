@@ -532,7 +532,7 @@ export default function ProductDetail() {
                             <label className="text-slate-700 text-md text-right">ملاحظة (اختياري)</label>
                             <div className="flex flex-row items-start border border-slate-300 rounded-lg px-3 py-2 focus-within:border-indigo-500 focus-within:ring-1">
                                 <textarea
-                                    className="flex-1 text-base text-right bg-transparent outline-none resize-none min-h-[60px]"
+                                    className="flex-1 text-base text-right bg-transparent outline-none resize-none min-h-15"
                                     value={transferNote}
                                     onChange={(e) => setTransferNote(e.target.value)}
                                 />

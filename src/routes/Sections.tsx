@@ -156,7 +156,7 @@ export default function Sections() {
                         <h1 className="font-semibold text-2xl">الأقسام</h1>
                         <div className='flex flex-row '>
                             <button onClick={onRefresh} className="px-6 flex justify-center items-center rounded-xl cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
-                                <RefreshCw />
+                                <RefreshCw className={refreshing ? 'animate-spin' : ''} />
                             </button>
                             <button
                                 onClick={() => navigate(-1)}
@@ -173,7 +173,7 @@ export default function Sections() {
                                 <Package size={40} color="#4338ca" />
                             </div>
                             <div >
-                                <div className="text-slate-700 text-base text-left">إجمالي الأدوية</div>
+                                <div className="text-slate-700 text-base text-left">إجمالي أسماء الأدوية</div>
                                 <div className="text-2xl font-bold mt-2 text-left">{totalProducts}</div>
                             </div>
                         </div>

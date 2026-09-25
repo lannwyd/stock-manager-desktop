@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "stock-manager-desktop",
+  "productName": "stock-manager",
   "version": "0.1.0",
   "identifier": "com.dali.stock-manager-desktop",
   "build": {

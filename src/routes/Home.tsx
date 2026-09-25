@@ -13,7 +13,6 @@ export default function Home() {
         warehouses,
         loading: warehousesLoading,
         error: warehousesError,
-        selectedWarehouseId,
         setSelectedWarehouseId,
         selectedWarehouse,
         refresh,
@@ -83,7 +82,7 @@ export default function Home() {
                         <Package size={40} color="#4338ca" />
                     </div>
                     <div >
-                        <div className="text-slate-700 text-base text-left">إجمالي الأدوية</div>
+                        <div className="text-slate-700 text-base text-left">إجمالي أسماء الأدوية</div>
                         <div className="text-2xl font-bold mt-2 text-left">{totalProducts}</div>
                     </div>
                 </div>
