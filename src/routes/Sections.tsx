@@ -225,7 +225,7 @@ export default function Sections() {
                                             e.stopPropagation();
                                             openEditModal(item);
                                         }}
-                                        className="flex flex-row items-center gap-1 border border-indigo-500  hover:bg-indigo-100 rounded-lg px-4 py-3 cursor-pointer "
+                                        className="flex flex-row bg-white items-center gap-1 border border-indigo-500  hover:bg-indigo-100 rounded-lg px-4 py-3 cursor-pointer "
                                     >
                                         <Pencil size={14} color="#4338ca" />
                                         <span className=" text-sm font-semibold">تعديل</span>
@@ -235,10 +235,10 @@ export default function Sections() {
                                             e.stopPropagation();
                                             handleDeleteSection(item);
                                         }}
-                                        className="flex flex-row items-center gap-1 border border-red-500 bg-white hover:bg-red-100   rounded-lg px-4 py-3 cursor-pointer transition-colors"
+                                        className="flex flex-row items-center gap-1 border border-red-800 bg-white hover:bg-red-100   rounded-lg px-4 py-3 cursor-pointer transition-colors"
                                     >
                                         <Trash2 size={14} color="#dc2626" />
-                                        <span className="text-red-600 text-sm font-semibold">حذف</span>
+                                        <span className="text-red-800 text-sm font-semibold">حذف</span>
                                     </button>
                                 </div>
                             </div>
@@ -271,6 +271,12 @@ export default function Sections() {
                                     className="flex-1 py-2 text-base bg-transparent outline-none"
                                     value={newName}
                                     onChange={(e) => setNewName(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            handleAddSection();
+                                        }
+                                    }}
                                     placeholder="..."
                                     autoFocus
                                 />
@@ -326,6 +332,12 @@ export default function Sections() {
                                     className="flex-1 py-2 text-base bg-transparent outline-none"
                                     value={editName}
                                     onChange={(e) => setEditName(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            handleSaveEdit();
+                                        }
+                                    }}
                                     autoFocus
                                 />
                                 {editName.length > 0 && (
