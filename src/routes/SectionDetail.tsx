@@ -263,6 +263,12 @@ export default function SectionDetail() {
                                     className="flex-1 py-2 text-base bg-transparent outline-none"
                                     value={newName}
                                     onChange={(e) => setNewName(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            handleAddFloor();
+                                        }
+                                    }}
                                     placeholder="الطابق 4"
                                     autoFocus
                                 />
@@ -310,6 +316,12 @@ export default function SectionDetail() {
                                     className="flex-1 py-2 text-base bg-transparent outline-none"
                                     value={editName}
                                     onChange={(e) => setEditName(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') {
+                                            e.preventDefault();
+                                            handleSaveEdit();
+                                        }
+                                    }}
                                     autoFocus
                                 />
                                 {editName.length > 0 && (

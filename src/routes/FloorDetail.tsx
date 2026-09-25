@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Lottie } from 'lottie-react';
 import { RefreshCw, ChevronRight, Layers, Package, Plus, Search, X } from 'lucide-react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import chatbotAnimation from '../assets/animations/chatbot.json';
 import errorAnimation from '../assets/animations/Error.json';
 
@@ -38,66 +38,14 @@ export default function FloorDetail() {
     const [newQuantity, setNewQuantity] = useState('');
     const [submitting, setSubmitting] = useState(false);
 
-    const filteredBatches = useMemo(() => {
-        if (!floor) return [];
-        const batches = floor.stock_batches ?? [];
-        if (!search.trim()) return batches;
+    const nameRef = useRef<HTMLInputElement>(null);
+    const dciRef = useRef<HTMLInputElement>(null);
+    const lotRef = useRef<HTMLInputElement>(null);
+    const monthRef = useRef<HTMLInputElement>(null);
+    const yearRef = useRef<HTMLInputElement>(null);
+    const quantityRef = useRef<HTMLInputElement>(null);
 
-        const query = search.trim().toLowerCase();
-        return batches.filter(
-            (b) =>
-                b.products?.name.toLowerCase().includes(query) ||
-                b.products?.dci.toLowerCase().includes(query)
-        );
-    }, [floor, search]);
-
-    if (loading) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-indigo-50" dir="rtl">
-                <div className="w-50 h-50">
-                    <Lottie src={chatbotAnimation} loop={true} />
-                </div>
-                <p className="font-bold text-xl mt-4">يتم التحميل ...</p>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-indigo-50" dir="rtl">
-                <div className="w-50 h-50">
-                    <Lottie src={errorAnimation} loop={true} />
-                </div>
-            </div>
-        );
-    }
-
-    if (!floor) {
-        return (
-            <div className="flex flex-col items-center justify-center min-h-screen bg-indigo-50" dir="rtl">
-                <p className="font-bold text-xl">الطابق غير موجود</p>
-            </div>
-        );
-    }
-
-    const totalItems = (floor.stock_batches ?? []).reduce((sum, b) => sum + (b.quantity ?? 0), 0);
-    const totalProducts = floor.stock_batches?.length ?? 0;
-
-    const resetForm = () => {
-        setNewName('');
-        setNewDci('');
-        setNewLot('');
-        setNewExpiryMonth('');
-        setNewExpiryYear('');
-        setNewQuantity('');
-    };
-
-    const openAddModal = () => {
-        resetForm();
-        setAddVisible(true);
-    };
-
-    const handleAddition = async () => {
+    const handleAddition = useCallback(async () => {
         if (!newName.trim() || !newDci.trim() || !newLot.trim()) {
             alert('معلومات ناقصة: يرجى إدخال الاسم، الـ DCI، ورقم اللوت.');
             return;
@@ -162,6 +110,83 @@ export default function FloorDetail() {
         setAddVisible(false);
         resetForm();
         refresh();
+    }, [newName, newDci, newLot, newExpiryMonth, newExpiryYear, newQuantity, floorId, refresh]);
+
+    const focusNext = (ref: React.RefObject<HTMLInputElement | null>) => {
+        ref.current?.focus();
+    };
+
+    const handleEnter = (
+        e: React.KeyboardEvent<HTMLInputElement>,
+        next?: React.RefObject<HTMLInputElement | null>
+    ) => {
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        if (next) {
+            focusNext(next);
+        } else {
+            handleAddition();
+        }
+    };
+
+    const filteredBatches = useMemo(() => {
+        if (!floor) return [];
+        const batches = floor.stock_batches ?? [];
+        if (!search.trim()) return batches;
+
+        const query = search.trim().toLowerCase();
+        return batches.filter(
+            (b) =>
+                b.products?.name.toLowerCase().includes(query) ||
+                b.products?.dci.toLowerCase().includes(query)
+        );
+    }, [floor, search]);
+
+    if (loading) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-screen bg-indigo-50" dir="rtl">
+                <div className="w-50 h-50">
+                    <Lottie src={chatbotAnimation} loop={true} />
+                </div>
+                <p className="font-bold text-xl mt-4">يتم التحميل ...</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-screen bg-indigo-50" dir="rtl">
+                <div className="w-50 h-50">
+                    <Lottie src={errorAnimation} loop={true} />
+                </div>
+            </div>
+        );
+    }
+
+    if (!floor) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-screen bg-indigo-50" dir="rtl">
+                <p className="font-bold text-xl">الطابق غير موجود</p>
+            </div>
+        );
+    }
+
+    const totalItems = (floor.stock_batches ?? []).reduce((sum, b) => sum + (b.quantity ?? 0), 0);
+    const totalProducts = floor.stock_batches?.length ?? 0;
+
+    function resetForm() {
+        setNewName('');
+        setNewDci('');
+        setNewLot('');
+        setNewExpiryMonth('');
+        setNewExpiryYear('');
+        setNewQuantity('');
+    }
+
+    const openAddModal = () => {
+        resetForm();
+        setAddVisible(true);
+        setTimeout(() => nameRef.current?.focus(), 0);
     };
 
     return (
@@ -171,7 +196,7 @@ export default function FloorDetail() {
                     <h1 className="font-semibold text-2xl text-left">{floor.name}</h1>
                     <div className='flex flex-row '>
                         <button onClick={onRefresh} className="px-6 flex justify-center items-center rounded-xl cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
-                            <RefreshCw />
+                            <RefreshCw className={refreshing ? 'animate-spin' : ''} />
                         </button>
                         <button
                             onClick={() => navigate(-1)}
@@ -281,9 +306,11 @@ export default function FloorDetail() {
                             <label className="text-slate-700 text-md">اسم الدواء</label>
                             <div className="flex flex-row items-center border border-slate-300 rounded-lg px-3 focus-within:border-indigo-500 focus-within:ring-1">
                                 <input
+                                    ref={nameRef}
                                     className="flex-1 py-2 text-base bg-transparent outline-none"
                                     value={newName}
                                     onChange={(e) => setNewName(e.target.value)}
+                                    onKeyDown={(e) => handleEnter(e, dciRef)}
                                 />
                                 {newName.length > 0 && (
                                     <button
@@ -300,9 +327,11 @@ export default function FloorDetail() {
                             <label className="text-slate-700 text-md">DCI</label>
                             <div className="flex flex-row items-center border border-slate-300 rounded-lg px-3 focus-within:border-indigo-500 focus-within:ring-1">
                                 <input
+                                    ref={dciRef}
                                     className="flex-1 py-2 text-base bg-transparent outline-none"
                                     value={newDci}
                                     onChange={(e) => setNewDci(e.target.value)}
+                                    onKeyDown={(e) => handleEnter(e, lotRef)}
                                 />
                                 {newDci.length > 0 && (
                                     <button
@@ -319,9 +348,11 @@ export default function FloorDetail() {
                             <label className="text-slate-700 text-md">LOT</label>
                             <div className="flex flex-row items-center border border-slate-300 rounded-lg px-3 focus-within:border-indigo-500 focus-within:ring-1">
                                 <input
+                                    ref={lotRef}
                                     className="flex-1 py-2 text-base bg-transparent outline-none"
                                     value={newLot}
                                     onChange={(e) => setNewLot(e.target.value)}
+                                    onKeyDown={(e) => handleEnter(e, monthRef)}
                                 />
                                 {newLot.length > 0 && (
                                     <button
@@ -339,12 +370,14 @@ export default function FloorDetail() {
                             <div className="flex flex-row gap-2">
                                 <div className="flex-1 flex flex-row items-center border border-slate-300 rounded-lg px-3 focus-within:border-indigo-500 focus-within:ring-1">
                                     <input
+                                        ref={monthRef}
                                         className="flex-1 py-2 text-base text-center bg-transparent outline-none"
                                         type="number"
                                         maxLength={2}
                                         placeholder="شهر"
                                         value={newExpiryMonth}
                                         onChange={(e) => setNewExpiryMonth(e.target.value)}
+                                        onKeyDown={(e) => handleEnter(e, yearRef)}
                                     />
                                     {newExpiryMonth.length > 0 && (
                                         <button
@@ -357,12 +390,14 @@ export default function FloorDetail() {
                                 </div>
                                 <div className="flex-1 flex flex-row items-center border border-slate-300 rounded-lg px-3 focus-within:border-indigo-500 focus-within:ring-1">
                                     <input
+                                        ref={yearRef}
                                         className="flex-1 py-2 text-base text-center bg-transparent outline-none"
                                         type="number"
                                         maxLength={4}
                                         placeholder="سنة"
                                         value={newExpiryYear}
                                         onChange={(e) => setNewExpiryYear(e.target.value)}
+                                        onKeyDown={(e) => handleEnter(e, quantityRef)}
                                     />
                                     {newExpiryYear.length > 0 && (
                                         <button
@@ -380,10 +415,12 @@ export default function FloorDetail() {
                             <label className="text-slate-700 text-md">الكمية</label>
                             <div className="flex flex-row items-center border border-slate-300 rounded-lg px-3 focus-within:border-indigo-500 focus-within:ring-1">
                                 <input
+                                    ref={quantityRef}
                                     className="flex-1 py-2 text-base bg-transparent outline-none"
                                     type="number"
                                     value={newQuantity}
                                     onChange={(e) => setNewQuantity(e.target.value)}
+                                    onKeyDown={(e) => handleEnter(e)}
                                 />
                                 {newQuantity.length > 0 && (
                                     <button
