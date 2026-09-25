@@ -1,5 +1,4 @@
-
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Lottie } from 'lottie-react';
 import { RefreshCw, ChevronLeft, Dot, Layers, Package } from 'lucide-react';
@@ -20,10 +19,16 @@ export default function Home() {
         refresh,
     } = useWarehouseContext();
     const { historyItems, loading: historyLoading, error: historyError, refetch: refetchHistory } = useHistory();
+    const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = useCallback(async () => {
+        setRefreshing(true);
         await Promise.all([refresh(), refetchHistory()]);
+        setRefreshing(false);
     }, [refresh, refetchHistory]);
+
+    const getProductName = (item: (typeof historyItems)[number]) =>
+        item.product_name ?? item.stock_batches?.products?.name ?? 'دواء غير معروف';
 
     if (warehousesLoading || historyLoading) {
         return (
@@ -65,7 +70,7 @@ export default function Home() {
                 </div>
 
                 <button onClick={onRefresh} className="px-6 flex justify-center items-center rounded-xl cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
-                    <RefreshCw />
+                    <RefreshCw className={refreshing ? 'animate-spin' : ''} />
                 </button>
                 <Link to="/meds" className="bg-indigo-500 rounded-xl w-fit px-6 flex items-center cursor-pointer hover:bg-indigo-600 text-sm text-white">
                     قائمة الأدوية
@@ -170,10 +175,10 @@ export default function Home() {
                             </div>
                             <div>
                                 <div className="text-base font-medium text-right">
-                                    {item.stock_batches?.products?.name ?? 'دواء غير معروف'}
+                                    {getProductName(item)}
                                 </div>
                                 <div className="text-sm text-slate-500 text-right">
-                                    {item.from_warehouse?.name ?? 'N/A'} ← {item.to_warehouse?.name ?? 'N/A'} · {new Date(item.created_at).toLocaleDateString()}
+                                    {item.to_warehouse?.name ?? 'N/A'} ←  {item.from_warehouse?.name ?? 'N/A'} · {new Date(item.created_at).toLocaleDateString()}
                                 </div>
                             </div>
                         </div>

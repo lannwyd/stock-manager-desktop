@@ -19,17 +19,18 @@ export default function HistoryScreen() {
         setRefreshing(false);
     }, [refetch]);
 
+    const getProductName = (item: (typeof historyItems)[number]) =>
+        item.product_name ?? item.stock_batches?.products?.name ?? 'دواء غير معروف';
+
     const filteredHistory = useMemo(() => {
         if (!search.trim()) return historyItems;
         const query = search.trim().toLowerCase();
-        return historyItems.filter((item) =>
-            item.stock_batches?.products?.name?.toLowerCase().includes(query)
-        );
+        return historyItems.filter((item) => getProductName(item).toLowerCase().includes(query));
     }, [historyItems, search]);
 
     const handleDeleteHistoryItem = async (item: (typeof historyItems)[number]) => {
         const isConfirmed = window.confirm(
-            `حذف هذا السجل؟\nسيتم حذف سجل نقل "${item.stock_batches?.products?.name ?? 'هذا الدواء'}" نهائيًا.`
+            `حذف هذا السجل؟\nسيتم حذف سجل نقل "${getProductName(item)}" نهائيًا.`
         );
 
         if (isConfirmed) {
@@ -72,7 +73,7 @@ export default function HistoryScreen() {
                         <h1 className="font-semibold text-2xl">السجل</h1>
                         <div className='flex flex-row '>
                             <button onClick={onRefresh} className="px-6 flex justify-center items-center rounded-xl cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
-                                <RefreshCw />
+                                <RefreshCw className={refreshing ? 'animate-spin' : ''} />
                             </button>
                             <button
                                 onClick={() => navigate(-1)}
@@ -121,7 +122,7 @@ export default function HistoryScreen() {
                                 </button>
                                 <div className="flex-1">
                                     <span className="text-lg font-medium text-right block">
-                                        {item.stock_batches?.products?.name ?? 'دواء غير معروف'}
+                                        {getProductName(item)}
                                     </span>
                                     <span className="text-slate-700 text-md text-right block">
                                         {item.from_warehouse?.name ?? 'N/A'} ← {item.to_warehouse?.name ?? 'N/A'} · {item.quantity} دواء · {new Date(item.created_at).toLocaleDateString('ar')}

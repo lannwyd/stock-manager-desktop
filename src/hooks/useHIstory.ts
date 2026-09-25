@@ -16,6 +16,8 @@ export function useHistory() {
         movement_type,
         note,
         created_at,
+        product_name,
+        product_dci,
         from_warehouse:from_warehouse_id ( id, name ),
         to_warehouse:to_warehouse_id ( id, name ),
         stock_batches (

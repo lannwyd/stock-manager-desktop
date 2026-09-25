@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabase';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Lottie } from 'lottie-react';
 import { RefreshCw, ArrowLeftRight, Calendar, ChevronRight, Hash, Layers, MapPin, Pencil, Trash2, X } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import chatbotAnimation from '../assets/animations/chatbot.json';
 import errorAnimation from '../assets/animations/Error.json';
 
@@ -29,6 +29,14 @@ export default function ProductDetail() {
     const [submitting, setSubmitting] = useState(false);
 
     const [refreshing, setRefreshing] = useState(false);
+
+    const editNameRef = useRef<HTMLInputElement>(null);
+    const editDciRef = useRef<HTMLInputElement>(null);
+    const editQuantityRef = useRef<HTMLInputElement>(null);
+    const editLotRef = useRef<HTMLInputElement>(null);
+    const editMonthRef = useRef<HTMLInputElement>(null);
+    const editYearRef = useRef<HTMLInputElement>(null);
+    const transferQuantityRef = useRef<HTMLInputElement>(null);
 
     const onRefresh = useCallback(async () => {
         setRefreshing(true);
@@ -105,6 +113,7 @@ export default function ProductDetail() {
         setEditExpiryMonth(month);
         setEditExpiryYear(year);
         setEditVisible(true);
+        setTimeout(() => editNameRef.current?.focus(), 0);
     };
 
     const handleSaveEdit = async () => {
@@ -164,6 +173,7 @@ export default function ProductDetail() {
         setTransferNote('');
         setTransferTargetWarehouseId(otherWarehouses[0]?.id ?? null);
         setTransferVisible(true);
+        setTimeout(() => transferQuantityRef.current?.focus(), 0);
     };
 
     const handleConfirmTransfer = async () => {
@@ -184,6 +194,8 @@ export default function ProductDetail() {
             from_warehouse_id: selectedWarehouse.id,
             to_warehouse_id: transferTargetWarehouseId,
             note: transferNote.trim() || null,
+            product_name: batch.products?.name ?? null,
+            product_dci: batch.products?.dci ?? null,
         });
 
         if (movementError) {
@@ -194,14 +206,48 @@ export default function ProductDetail() {
 
         const remaining = batch.quantity - qty;
         if (remaining <= 0) {
-            await supabase.from('stock_batches').delete().eq('id', batch.id);
+            const { error: deleteError } = await supabase.from('stock_batches').delete().eq('id', batch.id);
+            if (deleteError) {
+                setSubmitting(false);
+                alert(`خطأ: ${deleteError.message}`);
+                return;
+            }
         } else {
-            await supabase.from('stock_batches').update({ quantity: remaining }).eq('id', batch.id);
+            const { error: updateBatchError } = await supabase
+                .from('stock_batches')
+                .update({ quantity: remaining })
+                .eq('id', batch.id);
+            if (updateBatchError) {
+                setSubmitting(false);
+                alert(`خطأ: ${updateBatchError.message}`);
+                return;
+            }
         }
+
+        await refresh();
 
         setSubmitting(false);
         setTransferVisible(false);
         navigate(-1);
+    };
+
+    const handleEditEnter = (
+        e: React.KeyboardEvent<HTMLInputElement>,
+        next?: React.RefObject<HTMLInputElement | null>
+    ) => {
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        if (next) {
+            next.current?.focus();
+        } else {
+            handleSaveEdit();
+        }
+    };
+
+    const handleTransferEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key !== 'Enter') return;
+        e.preventDefault();
+        handleConfirmTransfer();
     };
 
     return (
@@ -212,7 +258,7 @@ export default function ProductDetail() {
                         <h1 className="font-semibold text-2xl text-left">{batch.products?.name}</h1>
                         <div className='flex flex-row '>
                             <button onClick={onRefresh} className="px-6 flex justify-center items-center rounded-xl cursor-pointer hover:bg-emerald-600 bg-emerald-500 text-sm text-white">
-                                <RefreshCw />
+                                <RefreshCw className={refreshing ? 'animate-spin' : ''} />
                             </button>
                             <button
                                 onClick={() => navigate(-1)}
@@ -310,9 +356,11 @@ export default function ProductDetail() {
                             <label className="text-slate-700 text-md text-right">اسم الدواء</label>
                             <div className="flex flex-row items-center border border-slate-300 rounded-lg px-3 focus-within:border-indigo-500 focus-within:ring-1">
                                 <input
+                                    ref={editNameRef}
                                     className="flex-1 py-2 text-base text-right bg-transparent outline-none"
                                     value={editName}
                                     onChange={(e) => setEditName(e.target.value)}
+                                    onKeyDown={(e) => handleEditEnter(e, editDciRef)}
                                 />
                                 {editName.length > 0 && (
                                     <button onClick={() => setEditName('')} className="p-1 hover:bg-slate-100 rounded-full cursor-pointer">
@@ -326,9 +374,11 @@ export default function ProductDetail() {
                             <label className="text-slate-700 text-md text-right">DCI</label>
                             <div className="flex flex-row items-center border border-slate-300 rounded-lg px-3 focus-within:border-indigo-500 focus-within:ring-1">
                                 <input
+                                    ref={editDciRef}
                                     className="flex-1 py-2 text-base text-right bg-transparent outline-none"
                                     value={editDci}
                                     onChange={(e) => setEditDci(e.target.value)}
+                                    onKeyDown={(e) => handleEditEnter(e, editQuantityRef)}
                                 />
                                 {editDci.length > 0 && (
                                     <button onClick={() => setEditDci('')} className="p-1 hover:bg-slate-100 rounded-full cursor-pointer">
@@ -342,10 +392,12 @@ export default function ProductDetail() {
                             <label className="text-slate-700 text-md text-right">الكمية</label>
                             <div className="flex flex-row items-center border border-slate-300 rounded-lg px-3 focus-within:border-indigo-500 focus-within:ring-1">
                                 <input
+                                    ref={editQuantityRef}
                                     type="number"
                                     className="flex-1 py-2 text-base text-right bg-transparent outline-none"
                                     value={editQuantity}
                                     onChange={(e) => setEditQuantity(e.target.value)}
+                                    onKeyDown={(e) => handleEditEnter(e, editLotRef)}
                                 />
                                 {editQuantity.length > 0 && (
                                     <button onClick={() => setEditQuantity('')} className="p-1 hover:bg-slate-100 rounded-full cursor-pointer">
@@ -359,9 +411,11 @@ export default function ProductDetail() {
                             <label className="text-slate-700 text-md text-right">LOT</label>
                             <div className="flex flex-row items-center border border-slate-300 rounded-lg px-3 focus-within:border-indigo-500 focus-within:ring-1">
                                 <input
+                                    ref={editLotRef}
                                     className="flex-1 py-2 text-base text-right bg-transparent outline-none"
                                     value={editLot}
                                     onChange={(e) => setEditLot(e.target.value)}
+                                    onKeyDown={(e) => handleEditEnter(e, editMonthRef)}
                                 />
                                 {editLot.length > 0 && (
                                     <button onClick={() => setEditLot('')} className="p-1 hover:bg-slate-100 rounded-full cursor-pointer">
@@ -376,12 +430,14 @@ export default function ProductDetail() {
                             <div className="flex flex-row gap-2">
                                 <div className="flex-1 flex flex-row items-center border border-slate-300 rounded-lg px-3 focus-within:border-indigo-500 focus-within:ring-1">
                                     <input
+                                        ref={editMonthRef}
                                         type="number"
                                         className="flex-1 py-2 text-base text-center bg-transparent outline-none"
                                         maxLength={2}
                                         placeholder="شهر"
                                         value={editExpiryMonth}
                                         onChange={(e) => setEditExpiryMonth(e.target.value)}
+                                        onKeyDown={(e) => handleEditEnter(e, editYearRef)}
                                     />
                                     {editExpiryMonth.length > 0 && (
                                         <button onClick={() => setEditExpiryMonth('')} className="p-1 hover:bg-slate-100 rounded-full cursor-pointer">
@@ -391,12 +447,14 @@ export default function ProductDetail() {
                                 </div>
                                 <div className="flex-1 flex flex-row items-center border border-slate-300 rounded-lg px-3 focus-within:border-indigo-500 focus-within:ring-1">
                                     <input
+                                        ref={editYearRef}
                                         type="number"
                                         className="flex-1 py-2 text-base text-center bg-transparent outline-none"
                                         maxLength={4}
                                         placeholder="سنة"
                                         value={editExpiryYear}
                                         onChange={(e) => setEditExpiryYear(e.target.value)}
+                                        onKeyDown={(e) => handleEditEnter(e)}
                                     />
                                     {editExpiryYear.length > 0 && (
                                         <button onClick={() => setEditExpiryYear('')} className="p-1 hover:bg-slate-100 rounded-full cursor-pointer">
@@ -439,10 +497,12 @@ export default function ProductDetail() {
                             <label className="text-slate-700 text-md text-right">الكمية المراد نقلها</label>
                             <div className="flex flex-row items-center border border-slate-300 rounded-lg px-3 focus-within:border-indigo-500 focus-within:ring-1">
                                 <input
+                                    ref={transferQuantityRef}
                                     type="number"
                                     className="flex-1 py-2 text-base text-right bg-transparent outline-none"
                                     value={transferQuantity}
                                     onChange={(e) => setTransferQuantity(e.target.value)}
+                                    onKeyDown={handleTransferEnter}
                                 />
                                 {transferQuantity.length > 0 && (
                                     <button onClick={() => setTransferQuantity('')} className="p-1 hover:bg-slate-100 rounded-full cursor-pointer">
